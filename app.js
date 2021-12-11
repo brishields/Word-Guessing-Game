@@ -103,7 +103,7 @@ function checkLetter (clickedBtn) {
         lostHeart = document.createElement('li');
         hearts.firstElementChild.remove();
         lostHeart.className = 'spentLives'; 
-        lostHeart.innerHTML = '<img src="images/lostHeart.png" height="35px" width="30px">';
+        lostHeart.innerHTML = '<img src="images/lostHeart.png" alt="Gray heart indicating one try lost" height="35" width="30">';
         hearts.append(lostHeart);
         missed ++;
     }
@@ -195,7 +195,7 @@ function resetScore () {
         oldLostHearts[i].remove(); 
         let newLives = document.createElement('li');   
         newLives.className = 'tries'; 
-        newLives.innerHTML = '<img src="images/liveHeart.png" height="35px" width="30px">';
+        newLives.innerHTML = '<img src="images/liveHeart.png" alt="Solid navy blue heart indicating one try"  height="35" width="30">';
         hearts.append(newLives);
     }
 }
