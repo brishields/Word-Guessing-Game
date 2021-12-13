@@ -96,6 +96,21 @@ button {
 .show {
   color: #000;
   background-color: #76CE82;
+  transition: background 2s ease-in;
+  animation: show 2s;
+}
+
+@keyframes show {
+  0% {
+    transform: rotateX(0);
+  }
+  50% {
+    background: #333;
+    color: #333;
+  }
+  100% {
+    transform: rotateX(360deg);
+  }
 }
 
 /* Keyboard */
@@ -112,7 +127,7 @@ button {
   color: #FFFFFF;
 }
 
-.btn__reset {
+.btn__reset, .new__game {
   padding: 8px;
   margin: 50px auto;
   background: #FFFFFF;

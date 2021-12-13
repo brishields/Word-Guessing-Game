@@ -15,12 +15,14 @@ var buttonArr;
 /*****************
  * `phrases` array
  *****************/
-const phrases = [ 'tuskegee', 'hillman', 'howard', 'hampton', 'spelman', 'morehouse', 'morgan state', 'xavier', 'famu', 'alabama state', 'bowie', 'umes', 'fisk', 'bethune cookman', 'bennet', 'fort valley state', 'miles', 'albany state'];
+const phrases = [ 'Tuskegee', 'Hillman', 'Howard', 'Hampton', 'Spelman', 'Morehouse', 'Morgan State', 'Xavier', 'FAMU', 'Alabama State', 'Bowie', 'UMES', 'Fisk', 'Bethune Cookman', 'Bennet', 'Fort Valley State', 'Miles', 'Albany State'];
 
 /***************************
  * Start Game Event Listener
  ***************************/
-//Hides overlay changing it's display value to none  
+/***
+ * Hides overlay changing it's display value to none.
+***/
 startGame.addEventListener('click', function () {
 
     if (overlay.className = 'start') {
@@ -41,6 +43,9 @@ startGame.addEventListener('click', function () {
 /***********************************
  * `getRandomPhraseAsArray` function
  ***********************************/
+/***
+ * This function randomly chooses a phrase from the `phrases` array.
+ ***/
 function getRandomPhraseAsArray () {
     let max = phrases.length;
     let index = Math.floor(Math.random()*(max));
@@ -51,21 +56,21 @@ function getRandomPhraseAsArray () {
  * `addPhraseToDisplay` function
  ******************************/
 /***
- * This function splits the randomly chosen phrase into individual characters, stores them into an arra
+ * This function splits the randomly chosen phrase into individual characters and stores them into an array.
  ***/
 function addPhraseToDisplay () {
-    //Calls 'getRandomPhraseAsArray' function and stores the resulting phrase in the 'randomPhrase' variable
+    //Calls 'getRandomPhraseAsArray' function and stores the resulting phrase in the 'randomPhrase' variable.
     var randomPhrase = getRandomPhraseAsArray()
     console.log(randomPhrase);
-    //Splits the random phrase into singular characters and stores them in an array
+    //Splits the random phrase into singular characters and stores them in an array.
     characterArray = randomPhrase.split('');
-    //Loops through the characterArray creating a new list item for each index
+    //Loops through the characterArray creating a new list item for each index.
     for (let i = 0; i < randomPhrase.length; i++) {
         //Creates new list item
         phraseLetterItem = document.createElement('li');
         //Adds the character from current index to the list item
         phraseLetterItem.textContent = `${characterArray[i]}`;
-        //Conditional statements which assign class name based on the character type
+        //Conditional statements which assign class name based on the character type.
         if (characterArray[i] === ' ') {
             phraseLetterItem.className = 'space'
         } else {
@@ -114,7 +119,7 @@ function checkLetter (clickedBtn) {
  * On-screen keyboard event listener
  ***********************************/
 /*** 
- * Adds listeners to the onboard keyboard which disables the button upon clicking
+ * Adds listeners to the onboard keyboard which disables the button upon clicking.
 ***/
 function activateButtons () {
     for (var i = 0; i < button.length; i++) {
@@ -132,28 +137,58 @@ function activateButtons () {
  *********************/
 /***
  * Checks to see if the the game is won or lost based on the correct guesses and the missed counter.
- */
+***/
  function checkWin () {
     correctLetters = document.getElementsByClassName('show').length;
     totalLetters = document.getElementsByClassName('letter').length;
-    //Lost - based on missed counter 
+    //Lose determined by missed counter.
      if (missed === 5) {
         title.innerHTML = 'You lost!';
-        overlay.style.display = 'flex';
         overlay.className = 'lose';
-        startGame.style.display = 'none';
-        document.getElementById('btn_reset').innerText = 'Try Again?';
+        createNewGameButton();
+        endGame();
      } else if 
-        //Won based on if all of the letters are correctly guessed
+        //Win based on if all of the letters are correctly guessed.
         (correctLetters === totalLetters) {
          setTimeout( function() {
-        title.innerHTML = 'You Won!';
-        overlay.style.display = 'flex';
-        overlay.className = 'win';
-        startGame.style.display = 'none';
-        document.getElementById('btn_reset').innerText = 'Play Again?';
-        }, 750)
+            title.innerHTML = 'You Won!';
+            overlay.className = 'win';
+            createNewGameButton();
+            endGame();
+            }, 2000)
      }
+}
+
+/********************************
+ * `createNewGameButton` function
+ ********************************/
+/***
+ * Creates new game buttons for the win and lose game overlays.
+***/
+function createNewGameButton () {
+    var newGameButton = document.createElement('button');
+        newGameButton.classList.add('new__game');
+
+        if (overlay.className === 'lose') {
+            newGameButton.innerText = 'Try Again?';
+        } else if (overlay.className === 'win') {
+            newGameButton.innerText = 'Play Again!'
+        }
+    overlay.append(newGameButton);
+    newGameButton.addEventListener('click', function () {
+    newGame();
+    });
+}
+
+/********************
+ * `endGame` function
+ ********************/
+/***
+ * Drops the game overlay once a win or lost is determined.
+***/
+function endGame () {
+    startGame.style.display = 'none';
+    overlay.style.display = 'flex';
 }
 
 
@@ -165,7 +200,7 @@ function activateButtons () {
  * `resetButtons` function
  ************************/
 function resetButtons () {
-
+    //Removes chosen class and reverts disabled status of previously selected buttons.
     for (let i = 0; i < button.length; i++) {
         button[i].disabled = false;
         button[i].classList.remove('chosen');
@@ -176,16 +211,14 @@ function resetButtons () {
  * `resePhrase` function
  **********************/
 function resetPhrase () {
-    
-    for (i = 0; i < phraseLetterArray.length; i++) {
-        phraseLetterArray[i].remove();
-    }
+    //Clears old phrase from the display.
+    phrase.innerHTML = '';
     addPhraseToDisplay();
 }
 
-/*********************
+/***********************
  * `resetScore` function
- *********************/
+ **********************/
 function resetScore () {
     missed = 0;
     let oldLostHearts = document.getElementsByClassName('spentLives');
@@ -207,4 +240,9 @@ function newGame () {
     resetPhrase();
     resetButtons();
     resetScore();
+    startGame.style.display = 'none';
+    overlay.style.display = 'none';
+    overlay.className = '';
+    //Removes new game button from overlay screen.
+    overlay.lastElementChild.remove();
 }
