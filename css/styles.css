@@ -94,8 +94,8 @@ button {
 }
 
 .show {
-  color: #000;
-  background-color: #76CE82;
+  color: #FFFFFF;
+  background-color: #5b85b7;
   transition: background 2s ease-in;
   animation: show 2s;
 }
@@ -159,7 +159,7 @@ button {
 }
 
 .start a {
-  color: var(--color-win);
+  color: var(--color-keys);
 }
 
 .win {
